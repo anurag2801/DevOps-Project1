@@ -70,8 +70,8 @@ This project automates the deployment of AWS infrastructure using Jenkins pipeli
        - Monitor pipeline execution in the Jenkins console for progress and logs.
 
   -  **Validation:**
-        -Verify infrastructure deployment in the AWS Management Console.
-        -SSH into the EC2 instance to verify installations of Docker, AWS CLI, and Docker Compose.
+      - Verify infrastructure deployment in the AWS Management Console.
+      - SSH into the EC2 instance to verify installations of Docker, AWS CLI, and Docker Compose.
 
 ## Security Considerations
 
