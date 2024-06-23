@@ -8,7 +8,7 @@ This project automates the deployment of AWS infrastructure using Jenkins pipeli
 
 - **Jenkins:** Automation server orchestrating pipelines.
 - **Terraform:** Infrastructure as Code tool for provisioning AWS resources.
-- **Ansible:** Configuration management tool for setting up Docker, AWS CLI, and Docker Compose.
+- **Ansible:** Configuration management tool for setting up Docker, AWS CLI, and Docker Compose using ansible playbook.
 - **AWS:** Cloud platform where infrastructure is provisioned.
 - **Terraform Cloud:** Used for storing Terraform state files securely.
 - **Credentials Management:** Utilizes Jenkins Credentials Plugin to manage sensitive data such as EC2 private keys, Terraform Cloud credentials, and AWS credentials.
@@ -84,11 +84,11 @@ This project automates the deployment of AWS infrastructure using Jenkins pipeli
 
 ## Troubleshooting
 
-    Pipeline Issues:
-        Refer to Jenkins console output for error messages and logs during pipeline execution.
-        Verify AWS IAM permissions and network connectivity if Terraform or Ansible operations fail.
+   - **Pipeline Issues:**
+       - Refer to Jenkins console output for error messages and logs during pipeline execution.
+       - Verify AWS IAM permissions and network connectivity if Terraform or Ansible operations fail.
 
-Contributing
+## Contributing
 
-    Contributions are welcome! Fork the repository and submit a pull request.
-    Discuss major changes by opening an issue first.
+   - Contributions are welcome! Fork the repository and submit a pull request.
+   - Discuss major changes by opening an issue first.
