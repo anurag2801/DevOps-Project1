@@ -1,0 +1,81 @@
+---
+- name: Install AWS CLI v2, Docker, and Docker Compose
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install prerequisites for AWS CLI
+      apt:
+        name:
+          - unzip
+          - curl
+        state: present
+
+    - name: Download AWS CLI v2
+      get_url:
+        url: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+        dest: /tmp/awscliv2.zip
+
+    - name: Unzip AWS CLI v2
+      unarchive:
+        src: /tmp/awscliv2.zip
+        dest: /tmp/
+        remote_src: yes
+
+    - name: Install AWS CLI v2
+      command: /tmp/aws/install
+
+    - name: Ensure apt package index is up to date
+      apt:
+        update_cache: yes
+
+    - name: Install Docker dependencies
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - software-properties-common
+        state: present
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+        state: present
+        update_cache: yes
+
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: present
+
+    - name: Add user to Docker group
+      user:
+        name: ubuntu  # replace with your actual username
+        groups: docker
+        append: yes
+
+    - name: Verify Docker is installed
+      command: docker --version
+      register: docker_version
+
+    - name: Print Docker version
+      debug:
+        msg: "{{ docker_version.stdout }}"
+
+    - name: Install Docker Compose
+      get_url:
+        url: https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
+        dest: /usr/local/bin/docker-compose
+        mode: '0755'
+
+    - name: Verify Docker Compose is installed
+      command: docker-compose --version
+      register: docker_compose_version
+
+    - name: Print Docker Compose version
+      debug:
+        msg: "{{ docker_compose_version.stdout }}"

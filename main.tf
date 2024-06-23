@@ -54,8 +54,19 @@ resource "aws_instance" "project_instance" {
   tags = {
     Name = "project-instance"
   }
+
+   provisioner "local-exec" {
+    command = "printf '\n${self.public_ip}' >> aws_hosts"
+  }
+
+   provisioner "local-exec" {
+    when    = destroy
+    command = "sed -i '/^[0-9]/d' aws_hosts"
+  }
+
 }
 
+ 
 # Backend Configuration for Terraform State
 //terraform {
   //backend "s3" {
