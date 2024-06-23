@@ -1,49 +1,56 @@
-Automated Infrastructure Deployment with Jenkins, Terraform, and Ansible
+# Automated Infrastructure Deployment with Jenkins, Terraform, and Ansible
 
-This project demonstrates automated deployment of AWS infrastructure using Jenkins pipelines, Terraform for provisioning, and Ansible for configuration management.
-Overview
+## Overview
 
-This project utilizes Jenkins to automate the entire deployment process. Jenkins pipelines are defined as code (Declarative Pipeline) and can be triggered manually or automatically upon changes to the GitHub repository containing Terraform configurations.
-Technologies Used
+This project automates the deployment of AWS infrastructure using Jenkins pipelines, Terraform for provisioning, and Ansible for configuration management.
 
-    Jenkins: Automation server orchestrating pipelines.
-    Terraform: Infrastructure as Code tool for provisioning AWS resources.
-    Ansible: Configuration management tool for setting up Docker, AWS CLI, and Docker Compose.
-    AWS: Cloud platform where infrastructure is provisioned.
-    Terraform Cloud: Used for storing Terraform state files securely.
-    Credentials Management: Utilizes Jenkins Credentials Plugin to manage sensitive data such as EC2 private keys, Terraform Cloud credentials, and AWS credentials.
+## Technologies Used
 
-Pipeline Steps
+- **Jenkins:** Automation server orchestrating pipelines.
+- **Terraform:** Infrastructure as Code tool for provisioning AWS resources.
+- **Ansible:** Configuration management tool for setting up Docker, AWS CLI, and Docker Compose.
+- **AWS:** Cloud platform where infrastructure is provisioned.
+- **Terraform Cloud:** Used for storing Terraform state files securely.
+- **Credentials Management:** Utilizes Jenkins Credentials Plugin to manage sensitive data such as EC2 private keys, Terraform Cloud credentials, and AWS credentials.
 
-    Checkout:
-        Jenkins pipeline fetches Terraform configurations from the GitHub repository.
+## Pipeline Steps
 
-    Terraform Init:
-        Initializes Terraform with necessary plugins and modules.
+1. **Checkout:**
+   - Jenkins pipeline fetches Terraform configurations from the GitHub repository.
 
-    Terraform Plan:
-        Generates an execution plan to preview infrastructure changes.
+2. **Terraform Init:**
+   - Initializes Terraform with necessary plugins and modules.
 
-    Terraform Apply:
-        Deploys an EC2 instance with a security group allowing traffic on port 8080.
+3. **Terraform Plan:**
+   - Generates an execution plan to preview infrastructure changes.
 
-    Ansible Configuration:
-        Uses Ansible playbook to install Docker, AWS CLI, and Docker Compose on the provisioned EC2 instance.
+4. **Terraform Apply:**
+   - Deploys an EC2 instance with a security group allowing traffic on port 8080.
 
-    Input from User:
-        Utilizes Jenkins Step Plugin to capture user inputs for dynamic configuration.
+5. **Ansible Configuration:**
+   - Uses Ansible playbook to install Docker, AWS CLI, and Docker Compose on the provisioned EC2 instance.
 
-Prerequisites
+6. **Input from User:**
+   - Utilizes Jenkins Step Plugin to capture user inputs for dynamic configuration.
 
-    Jenkins Setup:
-        Jenkins installed with required plugins (Terraform, Ansible, Git, Credentials).
-        Configure Jenkins to integrate with Terraform Cloud and AWS.
+## Prerequisites
 
-    Credentials Management:
-        Create and securely manage Jenkins credentials for:
-            Terraform Cloud credentials (API token or app ID/key).
-            AWS credentials (Access Key ID and Secret Access Key).
-            EC2 private key for SSH access.
+- **Jenkins Setup:**
+  - Jenkins installed with required plugins (Terraform, Ansible, Git, Credentials).
+  - Configure Jenkins to integrate with Terraform Cloud and AWS.
 
-    GitHub Repository:
-        Store Terraform configurations in a GitHub repository accessible to Jenkins.
+- **Credentials Management:**
+  - Create and securely manage Jenkins credentials for:
+    - Terraform Cloud credentials (API token or app ID/key).
+    - AWS credentials (Access Key ID and Secret Access Key).
+    - EC2 private key for SSH access.
+
+- **GitHub Repository:**
+  - Store Terraform configurations in a GitHub repository accessible to Jenkins.
+
+## Usage
+
+1. **Clone the Repository:**
+   ```bash
+   git clone git@github.com:yourusername/your-repository.git
+   cd your-repository
