@@ -1,0 +1,98 @@
+
+
+pipeline {
+    agent any
+
+    environment {
+        TF_IN_AUTOMATION = 'true'
+        TLF_CLI_CONFIG_FILE = credentials('tf-credentials')
+        shared_credentials_files = "/root/.aws/credentials"
+        ANSIBLE_HOST_KEY_CHECKING = 'False'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', credentialsId: 'git-cred', url: 'git@github.com:anurag2801/DevOps-Project1.git'
+            }
+        }
+
+        stage('Terraform Init') {
+            steps {
+                sh 'terraform init -no-color'
+            }
+        }
+
+        stage('Terraform Plan') {
+            steps {
+                sh 'terraform plan -no-color'
+            }
+        }
+
+        stage('Terraform Apply') {
+            steps {
+                sh 'terraform apply -auto-approve -no-color'
+            }
+        }
+
+        stage('EC2 Wait') {
+            steps {
+                sh 'aws ec2 wait instance-status-ok --region ap-south-1'
+            }
+        }
+
+        stage('Validate Ansible') {
+            steps {
+                script {
+                    def userInput = input(
+                        id: 'validate-ansible-input',
+                        message: "Do you want to run Ansible?",
+                        parameters: [choice(choices: ['Run Ansible', 'Skip Ansible'], description: 'Choose an option', name: 'Action')]
+                    )
+                    if (userInput == 'Run Ansible') {
+                        ansiblePlaybook(
+                            credentialsId: 'private-key',
+                            inventory: 'aws_hosts',
+                            playbook: 'main-playbook.yml',
+                          //  extras: '-u ubuntu -vvv'
+                          //disableHostKeyChecking: true
+                        )
+                    } else {
+                        echo "Skipping Ansible execution as per user choice."
+                    }
+                }
+            }
+        }
+
+        stage('Validate Destroy') {
+            steps {
+                script {
+                    def userInput = input(
+                        id: 'validate-destroy-input',
+                        message: "Do you want to destroy the infrastructure?",
+                        parameters: [choice(choices: ['Destroy', 'Skip Destroy'], description: 'Choose an option', name: 'Action')]
+                    )
+                    if (userInput == 'Destroy') {
+                        sh 'terraform destroy -auto-approve -no-color'
+                    } else {
+                        echo "Skipping destruction of infrastructure as per user choice."
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline executed successfully!'
+        }
+        failure {
+            echo 'Pipeline execution failed, cleaning up resources...'
+            sh 'terraform destroy -auto-approve -no-color'
+        }
+        aborted {
+            echo 'Pipeline execution aborted, cleaning up resources...'
+            sh 'terraform destroy -auto-approve -no-color'
+        }
+    }
+}
