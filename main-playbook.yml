@@ -1,6 +1,6 @@
 ---
 - name: Install AWS CLI v2, Docker, and Docker Compose
-  hosts: main
+  hosts: all
   become: yes
   tasks:
     - name: Install prerequisites for AWS CLI
