@@ -48,9 +48,47 @@ This project automates the deployment of AWS infrastructure using Jenkins pipeli
 - **GitHub Repository:**
   - Store Terraform configurations in a GitHub repository accessible to Jenkins.
 
-## Usage
+## Installation and Setup
 
 1. **Clone the Repository:**
    ```bash
    git clone git@github.com:yourusername/your-repository.git
    cd your-repository
+
+2. **Configure Jenkins Pipeline:**
+    Create a Jenkins pipeline job using the provided Jenkinsfile.
+    Configure the pipeline to trigger on changes to the GitHub repository.
+
+3. **Set Up Terraform Cloud:**
+   Register and configure Terraform Cloud workspace.
+   Store workspace credentials securely in Jenkins using Credentials Plugin.
+
+## Usage
+
+   - **Run the Pipeline:**
+       - Trigger the Jenkins pipeline manually or automatically upon changes.
+       - Monitor pipeline execution in the Jenkins console for progress and logs.
+
+  -  **Validation:**
+        -Verify infrastructure deployment in the AWS Management Console.
+        -SSH into the EC2 instance to verify installations of Docker, AWS CLI, and Docker Compose.
+
+## Security Considerations
+
+   - **Credential Security:**
+      - Manage sensitive credentials securely within Jenkins using the Credentials Plugin.
+      - Implement least privilege principles for AWS IAM roles and policies used by Terraform and Ansible.
+
+   - **Network Security:**
+      - Ensure proper network configurations and security group settings to restrict access as needed.
+
+## Troubleshooting
+
+    Pipeline Issues:
+        Refer to Jenkins console output for error messages and logs during pipeline execution.
+        Verify AWS IAM permissions and network connectivity if Terraform or Ansible operations fail.
+
+Contributing
+
+    Contributions are welcome! Fork the repository and submit a pull request.
+    Discuss major changes by opening an issue first.
